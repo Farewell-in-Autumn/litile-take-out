@@ -95,4 +95,45 @@ public class  EmployeeController {
         PageResult pageResult=employeeService.pageQuery(employeePageQueryDTO);
         return Result.success(pageResult);
     }
+    /**
+     * 启用或者禁用账号
+     * @param status
+     * @param id
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("启用或者禁用员工账号")
+    public Result startOrstop(@PathVariable Integer status, long id){//此处注解表示在方法参数中接收路径变量
+        log.info("开始了启用或者禁用账号的功能,参数为：{},{}",status,id);
+        employeeService.startOrstop(status,id);
+        return Result.success();
+    }
+
+    /**
+     * 根据id查询员工信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询员工信息")
+    public Result<Employee> getById(@PathVariable Long id){
+        //依旧调用service服务层来实现功能
+        Employee employee = employeeService.getById(id);//用这个吧结果装起来然后返回
+
+        return Result.success(employee);
+    }
+
+    /**
+     * 编辑员工信息
+     * @param employeeDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("编辑员工信息")
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+        log.info("编辑员工信息啦:{}", employeeDTO);
+        employeeService.update(employeeDTO);
+        return Result.success();
+    }
+
 }
